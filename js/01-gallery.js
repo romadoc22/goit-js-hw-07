@@ -28,27 +28,45 @@ function createCard() {
     .join(" ");
 }
 
-gallery.addEventListener("click", onclick);
+gallery.addEventListener("click", onClick);
 
-function onclick(evt) {
+const instance = basicLightbox.create(
+  `
+  <div class="modal">
+    <img class="modal-img" src="">
+  </div>
+`,
+  {
+    onShow: (instance) => {
+      window.addEventListener(
+        "keydown",
+        onEscClick
+      );
+    },
+    onClose: (instance) => {
+      window.removeEventListener(
+        "keydown",
+        onEscClick
+      );
+    },
+  }
+);
+
+function onClick(evt) {
   evt.preventDefault();
   if (evt.target.tagName !== "IMG") {
     return;
   }
-  const instance = basicLightbox.create(`
-    
-        <img width = "1400"  height = "1000" src = "${evt.target.dataset.source}"> 
-    
-`);
-  instance.show();
+  instance.show(
+    () =>
+      (document.querySelector(".modal-img").src =
+        evt.target.dataset.source)
+  );
 }
-
-document.addEventListener("keydown", onEscClick);
 
 function onEscClick(evt) {
   if (evt.code === "Escape") {
     instance.close();
   }
 }
-
 console.log(galleryItems);
