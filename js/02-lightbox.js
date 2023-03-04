@@ -7,16 +7,19 @@ const gallery =
 gallery.innerHTML = galleryItems
   .map(({ preview, original, description }) => {
     return `
-      <a class="gallery__item" href="${original}">
+      <li><a class="gallery__item" href="${original}">
       <img class="gallery__image" src="${preview}" alt="${description}" />
-    </a>`;
+    </a></li>`;
   })
   .join(" ");
 
-const lightbox = new imageLightbox(".gallery a", {
-  captionsData: "alt",
-  captionDelay: 250,
-  captionPosition: "bottom",
-});
+const lightbox = new SimpleLightbox(
+  ".gallery a",
+  {
+    captionsData: "alt",
+    captionDelay: 250,
+    captionPosition: "bottom",
+  }
+);
 
 console.log(galleryItems);
